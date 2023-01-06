@@ -1,1 +1,3 @@
 srcs/.env
+srcs/var/data/*
+!srcs/var/data/.gitkeep
