@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  mariadb:
+    build: mariadb/
+    image: mariadb
+    container_name: mariadb
+    hostname: mariadb
+    volumes:
+      - "./var/data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+    restart: always
+    networks:
+      - mynetwork
+
+  wordpress:
+    build: wordpress/
+    image: wordpress-php-fpm
+    container_name: wordpress
+    environment:
+      - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_USER=$MYSQL_USER
+      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
+      - WORDPRESS_DB_NAME=$MYSQL_DATABASE
+    ports:
+      - "9000:9000"
+    volumes:
+      - "./var/html:/var/www/html"
+    depends_on:
+      - mariadb
+    restart: always
+    networks:
+      - mynetwork
+    
+  nginx:
+    build: nginx/
+    image: nginx
+    container_name: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - "./var/html:/var/www/html"
+    networks:
+      - mynetwork
+    depends_on:
+      - wordpress
+    restart: always
+
+networks:
+  mynetwork:
+    driver: bridge
