@@ -31,5 +31,7 @@ restart: stop start
 prune:
 	docker system prune -a -f
 
+re: stop prune start
+
 tls:
 	openssl s_client -connect localhost:443 -tls1_2
