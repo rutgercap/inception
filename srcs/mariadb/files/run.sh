@@ -1,4 +1,5 @@
 #!/bin/sh
+echo "database is: $MYSQL_DATABASE $MYSQL_USER $MYSQL_PASSWORD "
 
 # execute any pre-init scripts
 for i in /scripts/pre-init.d/*sh
@@ -44,27 +45,31 @@ GRANT ALL ON *.* TO 'root'@'%' identified by '$MYSQL_ROOT_PASSWORD' WITH GRANT O
 GRANT ALL ON *.* TO 'root'@'localhost' identified by '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION ;
 SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}') ;
 DROP DATABASE IF EXISTS test ;
+
+CREATE DATABASE $MYSQL_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE USER '$MYSQL_USER'@'%' IDENTIFIED by '$MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';
+
 FLUSH PRIVILEGES ;
 EOF
+cat $tfile
 
-	if [ "$MYSQL_DATABASE" != "" ]; then
-	    echo "[i] Creating database: $MYSQL_DATABASE"
-		if [ "$MYSQL_CHARSET" != "" ] && [ "$MYSQL_COLLATION" != "" ]; then
-			echo "[i] with character set [$MYSQL_CHARSET] and collation [$MYSQL_COLLATION]"
-			echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` CHARACTER SET $MYSQL_CHARSET COLLATE $MYSQL_COLLATION;" >> $tfile
-		else
-			echo "[i] with character set: 'utf8' and collation: 'utf8_general_ci'"
-			echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tfile
-		fi
+echo "[i] Creating database: $MYSQL_DATABASE"
+if [ "$MYSQL_CHARSET" != "" ] && [ "$MYSQL_COLLATION" != "" ]; then
+	echo "[i] with character set [$MYSQL_CHARSET] and collation [$MYSQL_COLLATION]"
+	echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` CHARACTER SET $MYSQL_CHARSET COLLATE $MYSQL_COLLATION;" >> $tfile
+else
+	echo "[i] with character set: 'utf8' and collation: 'utf8_general_ci'"
+	echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tfile
+fi
 
-	 if [ "$MYSQL_USER" != "" ]; then
-		echo "[i] Creating user: $MYSQL_USER with password $MYSQL_PASSWORD"
-		echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* to '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
-	    fi
-	fi
+if [ "$MYSQL_USER" != "" ]; then
+	echo "[i] Creating user: $MYSQL_USER with password $MYSQL_PASSWORD"
+	echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* to '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
+fi
 
-	/usr/bin/mysqld --user=mysql --bootstrap --verbose=0 --skip-name-resolve --skip-networking=0 < $tfile
-	rm -f $tfile
+/usr/bin/mysqld --user=mysql --bootstrap --verbose=0 --skip-name-resolve --skip-networking=0 < $tfile
+rm -f $tfile
 
 	for f in /docker-entrypoint-initdb.d/*; do
 		case "$f" in

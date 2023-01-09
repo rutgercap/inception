@@ -1,7 +1,7 @@
 srcs/.env
 srcs/var/data/*
 !srcs/var/data/.gitkeep
-!srcs/var/index.html
+!srcs/var/html/index.html
 !srcs/var/html/.gitkeep
 srcs/var/html/*
 !srcs/var/html/.gitkeep

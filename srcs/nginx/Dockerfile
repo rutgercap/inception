@@ -1,6 +1,7 @@
-FROM nginx:1.23.3
+FROM alpine:3.17.0
 
-RUN apt-get update && apt-get install && apt-get install openssl
+RUN apk add --no-cache nginx openssl && \
+    rm -f /var/cache/apk/*
 
 RUN mkdir /etc/nginx/ssl
 RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
@@ -8,6 +9,6 @@ RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
         -keyout /etc/nginx/ssl/rcappend.key \
         -subj "/C=NL/ST=Amsterdam/L=Amsterdam/O=42 School/OU=rcappend/CN=rcappend/"
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY files/nginx.conf /etc/nginx/nginx.conf
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx"]
