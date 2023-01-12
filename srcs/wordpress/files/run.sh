@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "variables: $MYSQL_USER_EMAIL"
+echo "variables: $DOMAIN_NAME"
 
 [ -f /run-pre.sh ] && /run-pre.sh
 
@@ -23,4 +23,4 @@ wp-cli user create $MYSQL_SECOND_USER $MYSQL_SECOND_USER_EMAIL --role=author --u
 # start php-fpm
 echo starting php
 mkdir -p /usr/logs/php-fpm
-/usr/sbin/php-fpm8 -F -R
+/usr/sbin/php-fpm81 -F -R

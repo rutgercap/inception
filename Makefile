@@ -2,10 +2,7 @@ SRCS_DIR		:=	srcs/
 COMPOSE_FILE	:=	$(SRCS_DIR)docker-compose.yml
 ENV_FILE		:=	$(SRCS_DIR).env
 
-# Remove?
-NGINX_DIR		:=	nginx/
 NGINX			:=	nginx
-NETWORK			:=	mynetwork
 MARIADB			:=	mariadb
 WORDPRESS		:=	wordpress
 
