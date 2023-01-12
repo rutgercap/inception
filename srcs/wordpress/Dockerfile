@@ -1,4 +1,3 @@
-#todo: fix
 FROM alpine:3.17.0
 
 RUN apk add --no-cache bash curl less vim  ca-certificates git tzdata zip \
@@ -21,8 +20,9 @@ ADD files/run.sh /
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/bin/wp-cli && \
-    chown nginx:nginx /usr/bin/wp-cli
+    chown -R nginx:nginx /usr/bin/wp-cli
 RUN chmod +x /run.sh
-    
+
+WORKDIR /var/www/html/wordpress
 
 CMD ["/run.sh"]

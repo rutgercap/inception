@@ -1,18 +1,14 @@
 #!/bin/sh
 
-echo "variables: $DOMAIN_NAME"
-
 [ -f /run-pre.sh ] && /run-pre.sh
 
-if [ ! -d /usr/html ] ; then
+if [ ! -d /var/www/html ] ; then
   echo "[i] Creating directories..."
-  mkdir -p /usr/html
-  echo "[i] Fixing permissions..."
-  chown -R nginx:nginx /usr/html
-else
-  echo "[i] Fixing permissions..."
-  chown -R nginx:nginx /usr/html
+  mkdir -p /var/www/html
 fi
+echo "[i] Fixing permissions..."
+chown -R nginx:nginx /var/www/html
+echo $?
 
 # Configure wordpress stuff
 wp-cli core download --allow-root

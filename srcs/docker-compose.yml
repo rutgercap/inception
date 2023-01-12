@@ -21,6 +21,7 @@ services:
     build: wordpress/
     image: wordpress-php-fpm
     container_name: wordpress
+    hostname: wordpress
     environment:
       - MYSQL_HOST=$MYSQL_HOST
       - MYSQL_USER=$MYSQL_USER
