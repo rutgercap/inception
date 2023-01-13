@@ -1,6 +1,7 @@
 SRCS_DIR		:=	srcs/
-HTML_DIR		:=	$(SRCS_DIR)var/html
-DATA_DIR		:=	$(SRCS_DIR)var/data
+VAR_DIR			:=	var/
+HTML_DIR		:=	$(SRCS_DIR)$(VAR_DIR)html
+DATA_DIR		:=	$(SRCS_DIR)$(VAR_DIR)data
 COMPOSE_FILE	:=	$(SRCS_DIR)docker-compose.yml
 ENV_FILE		:=	$(SRCS_DIR).env
 
@@ -32,10 +33,13 @@ prune:
 	rm -rf $(DATA_DIR)
 	rm -rf $(HTML_DIR)
 
-$(HTML_DIR):
+$(VAR_DIR):
+	mkdir -p $(VAR_DIR)
+
+$(HTML_DIR): $(VAR_DIR)
 	mkdir -p $(HTML_DIR)
 
-$(DATA_DIR):
+$(DATA_DIR): $(VAR_DIR)
 	mkdir -p $(DATA_DIR)
 
 re: stop prune start
