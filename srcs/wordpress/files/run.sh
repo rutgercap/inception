@@ -7,7 +7,7 @@ if [ ! -d /var/www/html ] ; then
   mkdir -p /var/www/html
 fi
 echo "[i] Fixing permissions..."
-chown -R nginx:nginx /var/www/html
+chown -R nginx:nginx /var/www/*
 echo $?
 
 # Configure wordpress stuff
