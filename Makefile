@@ -10,7 +10,7 @@ MARIADB			:=	mariadb
 WORDPRESS		:=	wordpress
 
 start: $(HTML_DIR) $(DATA_DIR)
-	docker-compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) up -d
+	docker-compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) up --build
 
 build: $(HTML_DIR) $(DATA_DIR)
 	docker-compose -f $(COMPOSE_FILE) build 
@@ -27,6 +27,9 @@ delete:
 	@docker rm -f $(MARIADB)
 
 restart: stop start
+
+host-file:
+	@ echo "127.0.0.1 rcappend.42.fr" >> /etc/hosts
 
 prune:
 	docker system prune -a -f
