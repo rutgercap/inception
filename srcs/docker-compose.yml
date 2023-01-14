@@ -2,6 +2,8 @@ version: '3'
 
 services:
   mariadb:
+    env_file:
+      .env
     build: mariadb/
     image: mariadb
     container_name: mariadb
@@ -18,6 +20,8 @@ services:
       - mynetwork
 
   wordpress:
+    env_file:
+      .env
     build: wordpress/
     image: wordpress-php-fpm
     container_name: wordpress
@@ -45,6 +49,8 @@ services:
       - mynetwork
     
   nginx:
+    env_file:
+      .env
     build: nginx/
     image: nginx
     container_name: nginx
