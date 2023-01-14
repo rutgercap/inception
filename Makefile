@@ -10,7 +10,8 @@ MARIADB			:=	mariadb
 WORDPRESS		:=	wordpress
 
 start: $(HTML_DIR) $(DATA_DIR)
-	docker-compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) up --build
+	# docker-compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) up --build
+	docker-compose -f $(COMPOSE_FILE) up --build
 
 build: $(HTML_DIR) $(DATA_DIR)
 	docker-compose -f $(COMPOSE_FILE) build 
