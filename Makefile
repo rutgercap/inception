@@ -1,5 +1,5 @@
 SRCS_DIR		:=	srcs/
-VAR_DIR			:=	$(SRCS_DIR)var/
+VAR_DIR			:=	var/
 HTML_DIR		:=	$(VAR_DIR)html
 DATA_DIR		:=	$(VAR_DIR)data
 COMPOSE_FILE	:=	$(SRCS_DIR)docker-compose.yml
