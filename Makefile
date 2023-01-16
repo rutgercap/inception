@@ -42,7 +42,7 @@ prune:
 	docker system prune -a -f
 	rm -rf $(DATA_DIR)
 	rm -rf $(HTML_DIR)
-	delete-volumes
+	$(MAKE) delete-volumes
 
 $(VAR_DIR):
 	mkdir -p $(VAR_DIR)
