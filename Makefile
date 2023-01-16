@@ -35,8 +35,8 @@ host-file:
 	@ echo "127.0.0.1 rcappend.42.fr" >> /etc/hosts
 
 delete-volumes:
-	docker rm $(DB_VOLUME)
-	docker rm $(WP_VOLUME)
+	docker volume rm $(DB_VOLUME)
+	docker volume rm $(WP_VOLUME)
 
 prune:
 	docker system prune -a -f
