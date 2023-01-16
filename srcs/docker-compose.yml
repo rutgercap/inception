@@ -6,13 +6,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/rcappend/data/wp
+      device: var/html
   db:
     name: db
     driver_opts:
       type: none
       o: bind
-      device: /home/rcappend/data/db
+      device: var/data
 
 
 services:
