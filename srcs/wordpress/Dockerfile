@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:buster-20230109
 
 RUN apt-get update
 RUN apt-get -y install php7.3 php-mysqli php-fpm curl mariadb-client

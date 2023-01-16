@@ -9,6 +9,9 @@ NGINX			:=	nginx
 MARIADB			:=	mariadb
 WORDPRESS		:=	wordpress
 
+DB_VOLUME		:=	db
+WP_VOLUME		:=	wp
+
 start: $(HTML_DIR) $(DATA_DIR)
 	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_FILE)  up --build
 
@@ -31,10 +34,15 @@ restart: stop start
 host-file:
 	@ echo "127.0.0.1 rcappend.42.fr" >> /etc/hosts
 
+delete-volumes:
+	docker rm $(DB_VOLUME)
+	docker rm $(WP_VOLUME)
+
 prune:
 	docker system prune -a -f
 	rm -rf $(DATA_DIR)
 	rm -rf $(HTML_DIR)
+	delete-volumes
 
 $(VAR_DIR):
 	mkdir -p $(VAR_DIR)
